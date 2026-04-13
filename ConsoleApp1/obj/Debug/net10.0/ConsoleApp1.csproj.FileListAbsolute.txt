@@ -12,3 +12,4 @@ C:\Users\VHJP\Test\ConsoleApp1\obj\Debug\net10.0\refint\ConsoleApp1.dll
 C:\Users\VHJP\Test\ConsoleApp1\obj\Debug\net10.0\ConsoleApp1.pdb
 C:\Users\VHJP\Test\ConsoleApp1\obj\Debug\net10.0\ConsoleApp1.genruntimeconfig.cache
 C:\Users\VHJP\Test\ConsoleApp1\obj\Debug\net10.0\ref\ConsoleApp1.dll
+C:\Users\VHJP\Test\ConsoleApp1\obj\Debug\net10.0\ConsoleApp1.sourcelink.json
