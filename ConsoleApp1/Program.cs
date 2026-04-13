@@ -17,18 +17,95 @@
         // 11-20 -&gt; 3%
         // ir .t.t
         // Viso: 2 tšk.
-        // NumberGroups();
+        NumberGroups();
 
     }
-    // public static void NumberGroups(){
-    //     var randomIntArray = NewRandomIntArray(100);
-    // }
+    public static void NumberGroups()
+    {
+        var numberAmount = 1000;
+        var randomIntArray = NewRandomIntArray(numberAmount);
+        var groupsOfInt = GroupIntegers(randomIntArray);
+        var groupsByPercentage = CalculatePercentages(groupsOfInt, numberAmount);
+        PrintNumberGroups("Skaičių grupės:", groupsByPercentage);
+    }
 
-    // public static int[] NewRandomIntArray(int numberAmount)
-    // {
+    public static int[] NewRandomIntArray(int numberAmount)
+    {
+        var output = new int[numberAmount];
+        for (int number = 0; number < numberAmount; number++)
+        {
+            Random randObj = new(number);
+            output[number] = randObj.Next(0, 100);
+        }
+        return output;
+    }
+    public static Dictionary<string, int> GroupIntegers(int[] randomIntArray)
+    {
+        var groupDict = new Dictionary<string, int>{
+            {"1-10", 0},
+            {"11-20", 0},
+            {"21-30", 0},
+            {"31-40", 0},
+            {"41-50", 0},
+            {"51-60", 0},
+            {"61-70", 0},
+            {"71-80", 0},
+            {"81-90", 0},
+            {"91-100", 0}
+        };
 
-    // }
-
+        for (int numberIndex = 0; numberIndex < randomIntArray.Length; numberIndex++)
+        {
+            switch (randomIntArray[numberIndex])
+            {
+                case <= 10:
+                    groupDict["1-10"]++;
+                    break;
+                case > 10 and <= 20:
+                    groupDict["11-20"]++;
+                    break;
+                case > 20 and <= 30:
+                    groupDict["21-30"]++;
+                    break;
+                case > 30 and <= 40:
+                    groupDict["31-40"]++;
+                    break;
+                case > 40 and <= 50:
+                    groupDict["41-50"]++;
+                    break;
+                case > 50 and <= 60:
+                    groupDict["51-60"]++;
+                    break;
+                case > 60 and <= 70:
+                    groupDict["61-70"]++;
+                    break;
+                case > 70 and <= 80:
+                    groupDict["71-80"]++;
+                    break;
+                case > 80 and <= 90:
+                    groupDict["81-90"]++;
+                    break;
+                default:
+                    groupDict["91-100"]++;
+                    break;
+            }
+        }
+        return groupDict;
+    }
+    public static Dictionary<string, string> CalculatePercentages(Dictionary<string, int> dicgroupsOfInt, int numberAmount)
+    {
+        var groupsByPercentage = new Dictionary<string, string> { };
+        foreach (KeyValuePair<string, int> entry in dicgroupsOfInt)
+        {
+            groupsByPercentage.Add(entry.Key, $"{Math.Round((double)entry.Value / (double)numberAmount * 100.0, 1)}%");
+        }
+        return groupsByPercentage;
+    }
+    public static void PrintNumberGroups(string title, Dictionary<string, string> groupsOfInt)
+    {
+        Console.WriteLine(title);
+        Console.WriteLine(string.Join($"{System.Environment.NewLine}", groupsOfInt));
+    }
     public static void TemperatureAnomalies()
     {
         var tempArray = RandomTemperatures(30);
