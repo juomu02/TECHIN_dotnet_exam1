@@ -19,6 +19,111 @@
         // Viso: 2 tšk.
         NumberGroups();
 
+        // 3.Parašykite programą, kuri leidžia vartotojui įvesti mokinių vardus ir jų balus(1 tšk).
+        // Išsaugo visus įrašus į failą students.txt(vienas įrašas eilutėje, pvz., Aldona, 95)(1 tšk).
+        // Perskaito failą, apdoroja duomenis ir parodo mokinius surūšiuotus pagal balą
+        // mažėjančia tvarka(1 tšk).Viso: 3 tšk.
+        ExamResults();
+
+    }
+    public static void ExamResults()
+    {
+        var resultList = InputExamResults();
+        var filepath = @"C:\Users\VHJP\Test\ConsoleApp1\output.txt";
+        WriteDictToFile(resultList, filepath);
+        var examFromFile = ReadListFromFile(filepath);
+        var sortedDict = from entry in examFromFile orderby entry.Value descending select entry;
+        // Console.WriteLine(string.Join($"{System.Environment.NewLine}", sortedDict));
+
+
+    }
+    public static Dictionary<string, int> InputExamResults()
+    {
+        var output = new Dictionary<string, int>();
+        bool exitList = false;
+        var studentCount = 0;
+        Console.WriteLine("Naujo egzaminų rezultatų sąrašo kūrimas.");
+        var numberOfStudents = InputInt("Įveskite kiek mokinių norite įtraukti į sąrašą: ");
+
+        do
+        {
+            var nameInput = InputString("Įveskite studento vardą: ");
+            var scoreInput = InputInt("Įveskite studento pažymį: ");
+            output.Add(nameInput, scoreInput);
+            studentCount++;
+            if (studentCount == numberOfStudents) exitList = true;
+        }
+        while (!exitList);
+        return output;
+    }
+    public static string InputString(string title)
+    {
+        string userInput = "";
+        bool inputValid = false;
+        do
+        {
+            Console.Write(title);
+            var input = Console.ReadLine();
+            if (input.Length > 0) { userInput = input; inputValid = true; };
+        }
+        while (!inputValid);
+        Console.WriteLine();
+        return userInput;
+    }
+    public static int InputInt(string title)
+    {
+        int userInput = 0;
+        bool inputValid = false;
+        do
+        {
+            Console.Write(title);
+            var input = Console.ReadLine();
+            if (int.TryParse(input, out int n)) { inputValid = true; userInput = n; }
+        }
+        while (!inputValid);
+        Console.WriteLine();
+        return userInput;
+    }
+
+    public static void WriteDictToFile(Dictionary<string, int> resultList, string filePath)
+    {
+        var options = new FileStreamOptions
+        {
+            Mode = FileMode.OpenOrCreate,
+            Access = FileAccess.ReadWrite
+        };
+
+        using var writer = new StreamWriter(filePath, options);
+        {
+            foreach (KeyValuePair<string, int> entry in resultList)
+            {
+                writer.WriteLine($"{entry.Key}; {entry.Value}");
+            }
+        };
+    }
+    public static Dictionary<string, int> ReadListFromFile(string filePath)
+    {
+        Dictionary<string, int> resultDict = new Dictionary<string, int>();
+        string textLines = "";
+
+        var options = new FileStreamOptions
+        {
+            Mode = FileMode.OpenOrCreate,
+        };
+
+        using (var reader = new StreamReader(filePath, options))
+        {
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                if (line.Length > 0)
+                {
+                    string[] result = line.Trim().Split("; ");
+                    resultDict.Add(result[0], int.Parse(result[1]));
+                }
+            }
+        }
+        return resultDict;
     }
     public static void NumberGroups()
     {
